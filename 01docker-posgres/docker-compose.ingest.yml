@@ -1,0 +1,36 @@
+services:
+  data-ingest-1:
+    image: ingest-data:v01
+    command: > # it's not necessary to use an "=" or ":" sign here to pass the variables
+      --user marcosbenicio
+      --password 0102
+      --host pg-database
+      --port 5432
+      --database_name ny_taxi
+      --table_name green_taxi_trip
+      --url https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-09.csv.gz
+      --file_name green-tripdata-2019-09
+      --file_extension .gz
+    networks:
+      - default
+
+  data-ingest-2:
+    image: ingest-data:v01
+    command: >
+      --user marcosbenicio
+      --password 0102
+      --host pg-database
+      --port 5432
+      --database_name ny_taxi
+      --table_name taxi_zone_lookup
+      --url https://s3.amazonaws.com/nyc-tlc/misc/taxi+_zone_lookup.csv
+      --file_name taxi-zone-lookup
+      --file_extension .csv
+    networks:
+      - default
+
+
+networks:
+  default:
+    external:
+      name: pg-network
