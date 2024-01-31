@@ -1,0 +1,2 @@
+# ignore volume folder for postgres
+taxi-trip-postgres/
