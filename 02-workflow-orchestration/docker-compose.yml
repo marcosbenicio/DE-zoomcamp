@@ -1,0 +1,38 @@
+    version: '3'
+    services:
+
+      magic:
+        env_file: # Load environment variables from a file
+          - .env
+        build:
+          context: .   # Context is the current directory in which the docker-compose.yml file is located
+          dockerfile: Dockerfile
+        command: mage start ${PROJECT_NAME}
+        environment:
+          USER_CODE_PATH: /home/src/${PROJECT_NAME}
+          POSTGRES_DBNAME: ${POSTGRES_DBNAME}
+          POSTGRES_SCHEMA: ${POSTGRES_SCHEMA}
+          POSTGRES_USER: ${POSTGRES_USER}
+          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+          POSTGRES_HOST: ${POSTGRES_HOST}
+          POSTGRES_PORT: ${POSTGRES_PORT}
+        ports:
+          - 6789:6789
+        volumes: 
+          - .:/home/src/   # Mount the current directory to the /home/src directory in the container
+        restart: on-failure:5
+
+      postgres:
+        image: postgres:14
+        restart: on-failure
+        container_name: ${PROJECT_NAME}-postgres
+        env_file:
+          - .env
+        environment:
+          POSTGRES_DB: ${POSTGRES_DBNAME}
+          POSTGRES_USER: ${POSTGRES_USER}
+          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        ports:
+          - "${POSTGRES_PORT}:5432"
+        volumes: # Persist data after container restarts
+          - "./taxi-trip-postgres:/var/lib/postgresql/data:rw" # Mount the local directory to the container
