@@ -1,0 +1,33 @@
+[0m08:19:22.544878 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f06714b0640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f066f382ce0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f066f382c80>]}
+
+
+============================== 08:19:22.548434 | 15ac5aeb-0890-4f79-8cc3-d8b4301656a3 ==============================
+[0m08:19:22.548434 [info ] [MainThread]: Running with dbt=1.7.8
+[0m08:19:22.548901 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/marcos/.dbt', 'debug': 'False', 'fail_fast': 'False', 'log_path': 'logs', 'version_check': 'True', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'log_format': 'default', 'invocation_command': 'dbt init taxi_trip', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m08:19:22.549290 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse dict {'dir': PosixPath('/home/marcos/.dbt')}
+[0m08:19:22.549609 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m08:19:22.550361 [debug] [MainThread]: Starter project path: /home/marcos/.local/lib/python3.10/site-packages/dbt/include/starter_project
+[0m08:19:22.552684 [info ] [MainThread]: 
+Your new dbt project "taxi_trip" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m08:19:22.553060 [info ] [MainThread]: Setting up your profile.
+[0m08:19:22.553586 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No adapters available. Learn how to install an adapter by going to https://docs.getdbt.com/docs/connect-adapters#install-using-the-cli
+[0m08:19:22.554923 [debug] [MainThread]: Resource report: {"command_name": "init", "command_wall_clock_time": 0.012008372, "process_user_time": 1.691973, "process_kernel_time": 0.124105, "process_mem_max_rss": "103056", "process_in_blocks": "29912", "process_out_blocks": "64", "command_success": false}
+[0m08:19:22.555420 [debug] [MainThread]: Command `dbt init` failed at 08:19:22.555280 after 0.01 seconds
+[0m08:19:22.555785 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f06714b0640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f066f382fb0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f066f3830a0>]}
+[0m08:19:22.556146 [debug] [MainThread]: Flushing usage events

@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: staging                           # directory name in dbt/models
+    database: de-bootcamp-414215            # dataset name in BigQuery
+    schema: nyc_taxi                        # schema name in BigQuery where the table is located
+    tables:                                 # list of tables in the schema
+      - name: "green_taxi_external_2019"
+      - name: "yellow_taxi_external_2019"

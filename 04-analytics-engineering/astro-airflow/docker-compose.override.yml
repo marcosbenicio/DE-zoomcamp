@@ -1,0 +1,16 @@
+version: "3.1"
+services:
+  scheduler:
+    volumes:
+      - /home/marcos/.google/credentials/google_credentials.json:/usr/local/airflow/google/credentials/google_credentials.json:rw
+      - ./dags/dbt:/usr/local/airflow/dags/dbt:rw
+
+  webserver:
+    volumes:
+      - /home/marcos/.google/credentials/google_credentials.json:/usr/local/airflow/google/credentials/google_credentials.json:rw
+      - ./dags/dbt:/usr/local/airflow/dbt:rw
+
+  triggerer:
+    volumes:
+      - /home/marcos/.google/credentials/google_credentials.json:/usr/local/airflow/google/credentials/google_credentials.json:rw
+      - ./dags/dbt:/usr/local/airflow/dags/dbt:rw
