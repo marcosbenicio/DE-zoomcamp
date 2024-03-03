@@ -16,7 +16,6 @@ WITH trips_data AS (
     SUM(mta_tax) AS revenue_monthly_mta_tax,
     SUM(tip_amount) AS revenue_monthly_tip_amount,
     SUM(tolls_amount) AS revenue_monthly_tolls_amount,
-    SUM(ehail_fee) AS revenue_monthly_ehail_fee,
     SUM(improvement_surcharge) AS revenue_monthly_improvement_surcharge,
     SUM(total_amount) AS revenue_monthly_total_amount,
 

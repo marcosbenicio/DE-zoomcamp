@@ -42,7 +42,7 @@ REGION = getenv("REGIONAL", "us-east1")
 LOCATION = getenv("LOCATION", "us-east1")
 
 BUCKET_NAME = getenv("BUCKET_NAME", 'nyc-taxi-data-414215')
-GCS_BUCKET_FOLDER= getenv("GCS_BUCKET", f'nyc_taxi_trip_2019')
+GCS_BUCKET_FOLDER= getenv("GCS_BUCKET", f'nyc_taxi_trip_{YEAR}')
 CONNECTION_ID = getenv("CONNECTION_ID", "gcp_conn")
 SCHEMA_NAME = "nyc_taxi"
 DBT_ROOT_PATH = '/usr/local/airflow/dags/dbt/taxi_rides_ny'
@@ -108,11 +108,10 @@ def filesystem_to_gcs(bucket, dst, src):
 
 # [START DAG Object]-----------------------------------------------------------------------------------------  
 workflow = DAG(
-                dag_id="elt_nyc_taxi_bq",
+                dag_id="inget_nyc_taxi_gcs",
                 default_args = default_args,
                 description="""A DAG to export data from NYC taxi web, 
-                load the taxi trip data into GCS to create a BigQuery external table 
-                and transform the data with Dbt""",
+                load the taxi trip data into GCS to create a BigQuery external table """,
                 tags=['gcs', 'bigquery','data_elt', 'dbt', 'nyc_taxi'], 
                 schedule_interval="0 6 28 * *",
                 start_date = datetime(YEAR, 1, 1),
@@ -121,22 +120,6 @@ workflow = DAG(
 # [END DAG Object]
 
 # [START Workflow]----------------------------------------------------------------------------------------- 
-### Configure the profile and project to use with DbtTaskGroup
-profile_config = ProfileConfig(
-    profile_name = PROFILE_NAME,
-    target_name="dev",
-    profile_mapping = GoogleCloudServiceAccountFileProfileMapping(
-        conn_id = CONNECTION_ID,
-        profile_args = {
-            #"keyfile": KEYFILE_ROOT,
-            "project": "de-bootcamp-414215",
-            "dataset": SCHEMA_NAME
-        }
-        
-    )
-)
-project_config = ProjectConfig(DBT_ROOT_PATH)
-###
 
 # Start the workflow
 with workflow:
@@ -188,7 +171,7 @@ with workflow:
         dataset_id=DATASET_NAME,
         project_id=PROJECT_ID,
         location=LOCATION,
-        gcp_conn_id=CONNECTION_ID
+        gcp_conn_id= CONNECTION_ID
     )
     bigquery_green_taxi_table = BigQueryCreateExternalTableOperator(
         task_id="create_green_taxi_table",
@@ -200,11 +183,11 @@ with workflow:
             },
             'externalDataConfiguration': {
                 'sourceFormat': 'PARQUET',
-                'sourceUris': [f"gs://{BUCKET_NAME}/{GCS_BUCKET_FOLDER}/green_tripdata_*.parquet"],         
-                'schema_field': {'name': 'ehail_fee', 'type': 'FLOAT64', 'mode': 'NULLABLE'}
+                'sourceUris': [f"gs://{BUCKET_NAME}/{GCS_BUCKET_FOLDER}/green_tripdata_*.parquet"],
+                'autodetect': True 
                 }
         },
-        gcp_conn_id=CONNECTION_ID
+        gcp_conn_id= CONNECTION_ID
     )
     bigquery_yellow_taxi_table = BigQueryCreateExternalTableOperator(
         task_id="create_yellow_taxi_table",
@@ -217,19 +200,12 @@ with workflow:
             'externalDataConfiguration': {
                 'sourceFormat': 'PARQUET',
                 'sourceUris': [f"gs://{BUCKET_NAME}/{GCS_BUCKET_FOLDER}/yellow_tripdata_*.parquet"],
+                'autodetect': True
             }
         },
-        gcp_conn_id=CONNECTION_ID
+        gcp_conn_id= CONNECTION_ID
     )
-    dbt_workflow = DbtTaskGroup(
-        group_id = 'dbt_workflow',
-        project_config = project_config,
-        profile_config = profile_config,
-
-    )
-    
 download_data >> [transform_green_taxi_columns_to_snake, transform_yellow_taxi_columns_to_snake] \
 >> create_bucket >> [ingest_green_taxi_gcs, ingest_yellow_taxi_gcs ] \
->> create_empty_dataset >> [bigquery_yellow_taxi_table, bigquery_green_taxi_table] \
->> dbt_workflow
+>> create_empty_dataset >> [bigquery_yellow_taxi_table, bigquery_green_taxi_table]
 # [END Workflow] 

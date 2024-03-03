@@ -8,8 +8,10 @@ from cosmos.profiles import GoogleCloudServiceAccountFileProfileMapping
 CONNECTION_ID = "gcp_conn" 
 SCHEMA_NAME = "nyc_taxi"
 DBT_ROOT_PATH = '/usr/local/airflow/dags/dbt/taxi_rides_ny'
-PROFILE_NAME = "taxi_rides_ny"
+PROFILE_NAME = "bigquery-conn"
 KEYFILE_ROOT  = "/usr/local/airflow/google/credentials/google_credentials.json "
+
+YEAR_DATE = 2019
 # [END Env Variables] 
 
 # [START default args] 
@@ -21,12 +23,12 @@ default_args = {
     "retries": 1
 }
 # [END default args]
-
-workflow  =  DAG(
-                    dag_id ='test_stg_model',
-                    start_date=datetime(2024, 1, 1),
-                    schedule='@daily',
-                    default_args=default_args  
+workflow = DAG(
+                dag_id="test_stg_model",
+                default_args = default_args,
+                schedule_interval="0 6 28 * *",
+                start_date = datetime(YEAR_DATE, 1, 1),
+                end_date = datetime(YEAR_DATE, 12, 30),
                 )
 
 profile_config = ProfileConfig(
@@ -46,8 +48,8 @@ profile_config = ProfileConfig(
 project_config = ProjectConfig(DBT_ROOT_PATH)
 
 with workflow:
-        
-    init = EmptyOperator(task_id='init')
+    
+    start = EmptyOperator(task_id='start')
     
     dbt_workflow = DbtTaskGroup(
         group_id = 'dbt_workflow',
@@ -58,4 +60,4 @@ with workflow:
     
     finish = EmptyOperator(task_id='finish')
 
-init >> dbt_workflow >> finish
+start >> dbt_workflow >> finish
