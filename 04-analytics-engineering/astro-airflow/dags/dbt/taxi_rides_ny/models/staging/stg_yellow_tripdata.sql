@@ -38,10 +38,3 @@ SELECT
     {{ get_payment_type_description('payment_type') }} AS payment_type_description
 FROM tripdata
 WHERE rn = 1
-
--- dbt build --select <model.sql> --vars '{'is_test_run: false}'
-{% if var('is_test_run', default=true) %}
-
-    LIMIT 100
-
-{% endif %}

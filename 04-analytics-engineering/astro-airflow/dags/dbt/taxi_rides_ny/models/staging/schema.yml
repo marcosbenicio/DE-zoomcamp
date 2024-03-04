@@ -7,3 +7,170 @@ sources:
     tables:                                 # list of tables in the schema
       - name: "green_taxi_external_2019"
       - name: "yellow_taxi_external_2019"
+
+models:
+  - name: stg_green_tripdata
+    description: ""
+    columns:
+      - name: trip_id
+        data_type: string
+        description: ""
+
+      - name: vendor_id
+        data_type: int64
+        description: ""
+
+      - name: ratecode_id
+        data_type: int64
+        description: ""
+
+      - name: pickup_location_id
+        data_type: int64
+        description: ""
+
+      - name: dropoff_location_id
+        data_type: int64
+        description: ""
+
+      - name: pickup_datetime
+        data_type: timestamp
+        description: ""
+
+      - name: dropoff_datetime
+        data_type: timestamp
+        description: ""
+
+      - name: store_and_fwd_flag
+        data_type: string
+        description: ""
+
+      - name: passenger_count
+        data_type: int64
+        description: ""
+
+      - name: trip_distance
+        data_type: numeric
+        description: ""
+
+      - name: trip_type
+        data_type: int64
+        description: ""
+
+      - name: fare_amount
+        data_type: numeric
+        description: ""
+
+      - name: extra
+        data_type: numeric
+        description: ""
+
+      - name: mta_tax
+        data_type: numeric
+        description: ""
+
+      - name: tip_amount
+        data_type: numeric
+        description: ""
+
+      - name: tolls_amount
+        data_type: numeric
+        description: ""
+
+      - name: improvement_surcharge
+        data_type: numeric
+        description: ""
+
+      - name: total_amount
+        data_type: numeric
+        description: ""
+
+      - name: payment_type
+        data_type: int64
+        description: ""
+
+      - name: payment_type_description
+        data_type: string
+        description: ""
+
+  - name: stg_yellow_tripdata
+    description: ""
+    columns:
+      - name: trip_id
+        data_type: string
+        description: ""
+
+      - name: vendor_id
+        data_type: int64
+        description: ""
+
+      - name: ratecode_id
+        data_type: int64
+        description: ""
+
+      - name: pickup_location_id
+        data_type: int64
+        description: ""
+
+      - name: dropoff_location_id
+        data_type: int64
+        description: ""
+
+      - name: pickup_datetime
+        data_type: timestamp
+        description: ""
+
+      - name: dropoff_datetime
+        data_type: timestamp
+        description: ""
+
+      - name: store_and_fwd_flag
+        data_type: string
+        description: ""
+
+      - name: passenger_count
+        data_type: int64
+        description: ""
+
+      - name: trip_distance
+        data_type: numeric
+        description: ""
+
+      - name: trip_type
+        data_type: int64
+        description: ""
+
+      - name: fare_amount
+        data_type: numeric
+        description: ""
+
+      - name: extra
+        data_type: numeric
+        description: ""
+
+      - name: mta_tax
+        data_type: numeric
+        description: ""
+
+      - name: tip_amount
+        data_type: numeric
+        description: ""
+
+      - name: tolls_amount
+        data_type: numeric
+        description: ""
+
+      - name: improvement_surcharge
+        data_type: numeric
+        description: ""
+
+      - name: total_amount
+        data_type: numeric
+        description: ""
+
+      - name: payment_type
+        data_type: int64
+        description: ""
+
+      - name: payment_type_description
+        data_type: string
+        description: ""

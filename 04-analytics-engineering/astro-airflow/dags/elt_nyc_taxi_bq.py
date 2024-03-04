@@ -42,7 +42,7 @@ REGION = getenv("REGIONAL", "us-east1")
 LOCATION = getenv("LOCATION", "us-east1")
 
 BUCKET_NAME = getenv("BUCKET_NAME", 'nyc-taxi-data-414215')
-GCS_BUCKET_FOLDER= getenv("GCS_BUCKET", f'nyc_taxi_trip_2019')
+GCS_BUCKET_FOLDER= getenv("GCS_BUCKET", f'nyc_taxi_trip_{YEAR}')
 CONNECTION_ID = getenv("CONNECTION_ID", "gcp_conn")
 SCHEMA_NAME = "nyc_taxi"
 DBT_ROOT_PATH = '/usr/local/airflow/dags/dbt/taxi_rides_ny'
@@ -128,7 +128,6 @@ profile_config = ProfileConfig(
     profile_mapping = GoogleCloudServiceAccountFileProfileMapping(
         conn_id = CONNECTION_ID,
         profile_args = {
-            #"keyfile": KEYFILE_ROOT,
             "project": "de-bootcamp-414215",
             "dataset": SCHEMA_NAME
         }

@@ -9,7 +9,6 @@ CONNECTION_ID = "gcp_conn"
 SCHEMA_NAME = "nyc_taxi"
 DBT_ROOT_PATH = '/usr/local/airflow/dags/dbt/taxi_rides_ny'
 PROFILE_NAME = "bigquery-conn"
-KEYFILE_ROOT  = "/usr/local/airflow/google/credentials/google_credentials.json "
 
 YEAR_DATE = 2019
 # [END Env Variables] 
@@ -24,8 +23,9 @@ default_args = {
 }
 # [END default args]
 workflow = DAG(
-                dag_id="test_stg_model",
+                dag_id="test_dbt_models",
                 default_args = default_args,
+                description="A DAG to test the dbt models",
                 schedule_interval="0 6 28 * *",
                 start_date = datetime(YEAR_DATE, 1, 1),
                 end_date = datetime(YEAR_DATE, 12, 30),
@@ -37,7 +37,6 @@ profile_config = ProfileConfig(
     profile_mapping = GoogleCloudServiceAccountFileProfileMapping(
         conn_id = CONNECTION_ID,
         profile_args = {
-            #"keyfile": KEYFILE_ROOT,
             "project": "de-bootcamp-414215",
             "dataset": SCHEMA_NAME
         }
